@@ -1,11 +1,11 @@
-
+/* eslint-disable array-callback-return */
 export const setCurrentUser = async (user) => {
   console.log('setCurrentUser', user)
   try {
     if (user) {
       console.log('user', user)
       localStorage.setItem('auth_user', JSON.stringify(user));
-      let items = localStorage.getItem('users') != null
+      let items = localStorage.getItem('users') !== null
         ? JSON.parse(localStorage.getItem('users'))
         : [];
 

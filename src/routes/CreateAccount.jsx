@@ -13,7 +13,6 @@ const CreateAccount = () => {
   let location = useLocation();
   let users = getUsers();
   const [show, setShow] = useState(true);
-  const [status, setStatus] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,8 +24,6 @@ const CreateAccount = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    let formData = new FormData(event.currentTarget);
-    let email = formData.get("email");
     
     }
     function validate(field, label, setStatus) {
@@ -151,7 +148,7 @@ const CreateAccount = () => {
                     <p style={{color: '#FF5733'}}>{alert_password}</p>
                     <Input name="confirm" type="password" placeholder='Confirm password' value={confirm} className="form-control" onChange={ e => setConfirm(e.currentTarget.value)}/>
                     <p style={{color: '#FF5733'}}>{alert_confirm}</p>
-                    {name!=''|| email!=''||password!=''|| email!=''?
+                    {name!==''|| email!==''||password!==''|| email!==''?
                     <Button type="submit" onClick={handleCreate}>Create Account</Button>:<></>}
                   </form>
                   :<>

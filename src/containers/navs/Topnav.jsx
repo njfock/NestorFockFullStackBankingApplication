@@ -66,7 +66,8 @@ const Topnav = ({ path }) => {
                </Tooltip></>:<></>}
          </Nav>
             
-      </Navbar>                    <NotificationContainer/>
+      </Navbar>                    
+      <NotificationContainer/>
       <br/><br/>
    </>
   );

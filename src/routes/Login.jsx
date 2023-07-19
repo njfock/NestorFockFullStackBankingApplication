@@ -2,16 +2,14 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { Card, CardBody, CardTitle, Row, Col, Input, Button } from 'reactstrap';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 import TopNav from "../containers/navs/Topnav";
 import logo from '../assets/logo/logo-color.png';
 
-import { getCurrentUser, setCurrentUser, getUsers, setLog } from "../helper/auth";
+import { setCurrentUser, getUsers, setLog } from "../helper/auth";
 const Login = () => {
   let navigate = useNavigate();  
   let location = useLocation();
-  let auth = getCurrentUser();
   let users = getUsers();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

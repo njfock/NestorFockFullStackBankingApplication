@@ -86,7 +86,7 @@ const Deposit = () => {
               </CardSubtitle>
             </CardBody>
             <CardFooter style={{background: '#FF5733'}}>
-              {amount!=0?
+              {amount!==0?
               <Button type="submit" onClick={handleSubmit}>Deposit</Button>
               : <></>}
             </CardFooter>

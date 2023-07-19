@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useLocation } from "react-router-dom";
 import moment from 'moment';
 import TopNav from "../containers/navs/Topnav";
-import { Card, CardBody, CardTitle, Col, CardText, Row, Nav,NavItem, NavLink, TabContent, TabPane,  Button } from 'reactstrap';
+import { Card, CardBody, CardTitle, Col, CardText, Row, Nav,NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { getUsers, getLogs } from "../helper/auth";
 import logo from '../assets/logo/logo-no-background.png';
 const AllData = () => {
