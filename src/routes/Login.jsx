@@ -1,55 +1,39 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { onAuthStateChanged } from "firebase/auth";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { Card, CardBody, CardTitle, Row, Col, Input, Button } from 'reactstrap';
-
 import TopNav from "../containers/navs/Topnav";
 import logo from '../assets/logo/logo-color.png';
-
-import { setCurrentUser, getUsers, setLog } from "../helper/auth";
+import { auth } from "../helper/firebase";
+import { setCurrentUser } from "../helper/auth";
 const Login = () => {
   let navigate = useNavigate();  
   let location = useLocation();
-  let users = getUsers();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [alert_email, setAlertEmail] = React.useState('');
-  const [alert_password, setAlertPassword] = React.useState('');
+
   async function handleSubmit(event) {
     event.preventDefault();
     console.log('handleSubmit')
-    let register = await validateEmail(email);
-    if(register.x){
-      console.log('register.password', register.x)
-      if (register.x === password){
-        setLog({email: email, action:'Successful login', date: Date.now()})
-        setCurrentUser({...register})
-        navigate("/");
-      }
-      else {
-        setLog({email: email, action:'Password error', date: Date.now()})
-        setAlertPassword('Password error')
-      }
-    }
-    else {
-      setLog({email: email, action:'Email error', date: Date.now()})
-      setAlertEmail('Email error')
-    }
+    setCurrentUser({email, password})
   }
-    async function validateEmail (field) {
-      let flag = {};
-      if(field) {
-        if(users.length> 0 ){
-          await users.map(async (item) => {
-            if(field === item.email) {
-              flag = item;
-            }
-          })
-        }
+
+  const Auth = () => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log('uid = ',user.uid);
+        navigate('/')
+      } else {
+        console.log('No hay usuario loggeado')
       }
-      return flag;
-    }
-    console.log('getUsers', users)
+    });
+  }
+  
+  useEffect(() => {
+    Auth()
+  },[])
   return (
     <>
       <div className="fixed-background" >
@@ -87,12 +71,11 @@ const Login = () => {
                 <CardBody>
                   <CardTitle tag="h2" style={{color: '#FF5733'}} className="mt-3">
                     Login
+                    {auth.currentUser}
                   </CardTitle>
                   <form onSubmit={handleSubmit} className="mt-4">
-                    <Input name="email" type="text" placeholder='Email' value={email} className="form-control" onChange={ e => setEmail(e.currentTarget.value)}/>
-                    <p style={{color: '#FF5733'}}>{alert_email}</p>
-                    <Input name="password" type="password" placeholder='Password' value={password} className="form-control" onChange={ e => setPassword(e.currentTarget.value)}/>
-                    <p style={{color: '#FF5733'}}>{alert_password}</p>
+                    <Input name="email" type="text" placeholder='Email' value={email} className="form-control" onChange={ e => setEmail(e.currentTarget.value)}/><br/>
+                    <Input name="password" type="password" placeholder='Password' value={password} className="form-control" onChange={ e => setPassword(e.currentTarget.value)}/><br/>
                     <Button type="submit" onClick={handleSubmit}>Login</Button>
                   </form>
                 </CardBody>

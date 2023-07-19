@@ -1,32 +1,22 @@
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { appFB } from './firebase';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { auth } from './firebase';
 
 /* eslint-disable array-callback-return */
 export const setCurrentUser = async (user) => {
   console.log('setCurrentUser', user)
   try {
     if (user) {
-      console.log('user', user)
-      localStorage.setItem('auth_user', JSON.stringify(user));
-      let items = localStorage.getItem('users') !== null
-        ? JSON.parse(localStorage.getItem('users'))
-        : [];
-
-      console.log('items.length', items.length)
-      let users = []
-      if(items.length> 0){
-        await items.map((item)=> {
-          if(item.email === user.email){
-            users.push(user)
-          }
-          else {
-            users.push(item)
-          }
+      signInWithEmailAndPassword(auth, user.email, user.password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log('current user is ', user)
         })
-      }
-        localStorage.setItem('users', JSON.stringify(users));
-    } else {
-      localStorage.removeItem('auth_user');
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log('errorCode', errorCode);
+          console.log('errorMessage', errorMessage);
+        });
     }
   } catch (error) {
     console.log('>>>>: src/helpers/Utils.js : setCurrentUser -> error', error);
@@ -35,16 +25,15 @@ export const setCurrentUser = async (user) => {
 
 export const setNewUser = (user) => {
   console.log('setNewUser', user)
-  const auth = getAuth(appFB);
   try {
     if (user) {
       createUserWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential) => {
-        const user = userCredential.user;
+        console.log(userCredential.user)
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        console.log('errorCode =', error.code);
+        console.log('errorMessage =', error.message);
       });
     } 
   } catch (error) {
@@ -107,3 +96,11 @@ export const getLogs = () => {
   }
   return user;
 };
+
+export const setLogout = () => {
+  signOut(auth).then(() => {
+    // Sign-out successful.
+  }).catch((error) => {
+    // An error happened.
+  });
+}

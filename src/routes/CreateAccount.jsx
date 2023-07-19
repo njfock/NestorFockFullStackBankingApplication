@@ -7,11 +7,10 @@ import 'react-notifications/lib/notifications.css';
 import TopNav from "../containers/navs/Topnav";
 import logo from '../assets/logo/logo-black.png';
 
-import { getUsers, setNewUser, setLog } from "../helper/auth";
+import { setNewUser, setLog } from "../helper/auth";
 const CreateAccount = () => {
   let navigate = useNavigate();  
   let location = useLocation();
-  let users = getUsers();
   const [show, setShow] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -57,23 +56,7 @@ const CreateAccount = () => {
       return true;
     }
   
-    async function validateEmail (field, setStatus) {
-      if(field) {
-        let flag = 0;
-        if(users.length> 0 ){
-          await users.map(async (item) => {
-            if(field === item.email) {
-              flag = flag + 1;
-            }
-          })
-          if(flag > 0){
-            setStatus('Error: Email email already exists')
-            return false;
-          }
-        }
-      }
-      return true;
-    }
+
 
     const handleCreate = async () => {
       let flag = 0;
@@ -82,7 +65,6 @@ const CreateAccount = () => {
       if (!validate(password, 'Password', setAlertPassword)) flag = flag + 1;
       if (!validate(confirm, 'Confirm pasword', setAlertConfirm)) flag = flag + 1;
       if (!validatePassword(password, confirm, setAlertConfirm)) flag = flag + 1;
-      if (! await validateEmail(email, setAlertEmail)) flag = flag + 1;
       if (!validatePasswordLength(password, setAlertPassword)) flag = flag + 1;
       
       if (flag === 0){

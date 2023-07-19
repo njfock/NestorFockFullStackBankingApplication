@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { onAuthStateChanged } from "firebase/auth";
 import {NotificationContainer } from 'react-notifications';
 import {
   Navbar,
@@ -10,13 +10,27 @@ import {
   NavbarText, Tooltip
 } from 'reactstrap';
 
-import { getCurrentUser, setCurrentUser } from "../../helper/auth";
+import { auth } from '../../helper/firebase';
+import { setLogout } from "../../helper/auth";
 import logo from '../../assets/logo/logo-no-background.png';
 import Tab from './Tab';
 const Topnav = ({ path }) => {
    const [tooltipOpen, setTooltipOpen] = useState(false);
-   let navigate = useNavigate();
-   let user = getCurrentUser();
+   const [user, setUser] = useState();
+   useEffect(() => {
+      Auth()
+    },[])
+
+   const Auth = () => {
+      onAuthStateChanged(auth, (current) => {
+        if (current) {
+          setUser({ uid: current.uid, email: current.email })
+          console.log('user', current)
+        } else {
+          console.log('No hay usuario loggeado')
+        }
+      });
+    }
    return (
    <>
       <Navbar style={{width: '100%',backgroundColor: 'rgba(192,192,192,0.8)'}} >
@@ -41,7 +55,6 @@ const Topnav = ({ path }) => {
                <Tab path={path} title={'Deposit'} link={"/deposit"} description={'Deposito'} index={3}/>
                <Tab path={path} title={'Withdraw'} link={"/withdraw"} description={'Retiro'} index={4}/>
                <Tab path={path} title={'All Data'} link={"/data"} description={'Datos'} index={5}/>
-               
             </>
          }
          </Nav>
@@ -51,7 +64,7 @@ const Topnav = ({ path }) => {
             {user?
             <>
             <NavItem id={`tooltip_logout`}>
-                  <NavLink href="/login" onClick={()=>{setCurrentUser();navigate("/")}} style={{color: '#000000'}}>
+                  <NavLink href="/login" onClick={()=>{setLogout()}} style={{color: '#000000'}}>
                      Logout
                   </NavLink>
                </NavItem>
