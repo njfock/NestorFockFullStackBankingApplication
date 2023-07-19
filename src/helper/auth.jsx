@@ -1,3 +1,6 @@
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { appFB } from './firebase';
+
 /* eslint-disable array-callback-return */
 export const setCurrentUser = async (user) => {
   console.log('setCurrentUser', user)
@@ -32,14 +35,17 @@ export const setCurrentUser = async (user) => {
 
 export const setNewUser = (user) => {
   console.log('setNewUser', user)
+  const auth = getAuth(appFB);
   try {
     if (user) {
-      let users =
-      localStorage.getItem('users') != null
-        ? JSON.parse(localStorage.getItem('users'))
-        : [];
-      users.push(user)
-      localStorage.setItem('users', JSON.stringify(users));
+      createUserWithEmailAndPassword(auth, user.email, user.password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
     } 
   } catch (error) {
     console.log('>>>>: src/helpers/Utils.js : setNewUser -> error', error);

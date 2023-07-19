@@ -17,14 +17,13 @@ const CreateAccount = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-  const [alert_name, setAlertName] = React.useState('');
-  const [alert_email, setAlertEmail] = React.useState('');
-  const [alert_password, setAlertPassword] = React.useState('');
-  const [alert_confirm, setAlertConfirm] = React.useState('');
+  const [alert_name, setAlertName] = useState('');
+  const [alert_email, setAlertEmail] = useState('');
+  const [alert_password, setAlertPassword] = useState('');
+  const [alert_confirm, setAlertConfirm] = useState('');
 
   function handleSubmit(event) {
     event.preventDefault();
-    
     }
     function validate(field, label, setStatus) {
       if(!field) {
@@ -89,7 +88,7 @@ const CreateAccount = () => {
       if (flag === 0){
         setShow(false)
         setLog({email: email, action:'Create user', date: Date.now()})
-        setNewUser({email: email, name: name, x: password, balance: 0})
+        setNewUser({email: email, name: name, password: password, balance: 0})
         NotificationManager.success('Successfully Created Account', 'Logging in...');
       }
     }
