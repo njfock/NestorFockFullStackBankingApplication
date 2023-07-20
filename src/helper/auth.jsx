@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from './firebase';
+import { servicePath } from '../constants/defaultValues';
 
 /* eslint-disable array-callback-return */
 export const setCurrentUser = async (user) => {
@@ -29,7 +30,7 @@ export const setNewUser = (user) => {
     if (user) {
       createUserWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential) => {
-        console.log(userCredential.user)
+        registerUser(userCredential.user);
       })
       .catch((error) => {
         console.log('errorCode =', error.code);
@@ -103,4 +104,15 @@ export const setLogout = () => {
   }).catch((error) => {
     // An error happened.
   });
+}
+
+const registerUser = async (user) => {
+  await fetch(`${servicePath}register`, {
+    method: 'POST', mode: 'cors', cache: 'no-cache',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify(user)
+  })
+    .then(response => response.json())
+    .then(data => { return data; })
+    .catch(err => console.log(err));
 }

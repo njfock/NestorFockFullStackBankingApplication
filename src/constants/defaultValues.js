@@ -1,0 +1,1 @@
+export const servicePath = 'http://localhost:5001/nestorfockbankingapp/us-central1/app/';
