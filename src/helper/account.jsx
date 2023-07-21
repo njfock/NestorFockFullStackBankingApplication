@@ -1,6 +1,4 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { auth } from './firebase';
-import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { servicePath } from '../constants/defaultValues';
 
@@ -16,9 +14,7 @@ function getToken(auth) {
 }
 
 export const getAccount = async () => {
-  console.log('getAccount')
   let token = await getToken(auth);
-  console.log('token', token)
   const response = await fetch(`${servicePath}account/get`, {
       method: 'POST', mode: 'cors', cache: 'no-cache',
       headers: { 'Content-Type': 'application/json', 'token': token },
@@ -28,10 +24,22 @@ export const getAccount = async () => {
       .catch(err => console.log(err));
   return response.data[0];
 };
+
+export const getAccounts = async () => {
+  let token = await getToken(auth);
+  const response = await fetch(`${servicePath}account/list`, {
+      method: 'POST', mode: 'cors', cache: 'no-cache',
+      headers: { 'Content-Type': 'application/json', 'token': token },
+    })
+      .then(response => response.json())
+      .then(data => { return data; })
+      .catch(err => console.log(err));
+  return response.data;
+};
+
 export const updateAccount = async (payload) => {
   console.log('updateAccount', payload)
   let token = await getToken(auth);
-  console.log('token', token)
   const response = await fetch(`${servicePath}account/update`, {
       method: 'POST', mode: 'cors', cache: 'no-cache',
       headers: { 'Content-Type': 'application/json', 'token': token },

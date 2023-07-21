@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import TopNav from "../containers/navs/Topnav";
 import { Card, CardBody, CardTitle, CardSubtitle, Row, Col, Input, Button, CardFooter } from 'reactstrap';
 import { NotificationManager } from 'react-notifications';
-import { setCurrentUser, setLog } from "../helper/auth";
 import { getAccount, updateAccount } from "../helper/account";
 import logo from '../assets/logo/logo-no-background.png';
 const Withdraw = () => {
@@ -15,7 +14,6 @@ const Withdraw = () => {
     let response = await getAccount();
     setAccount(response)
   }
-  console.log('account', account)
   useEffect(() => {
     Account()
   },[])

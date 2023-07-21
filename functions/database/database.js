@@ -23,6 +23,16 @@ async function getCollection(data) {
   return response;
 }
 
+async function getCollections() {
+  await client.connect();
+  console.log('Connected successfully to server');
+  const db = client.db(dbName);
+  const collection = db.collection('accounts');
+  const response = await collection.find({}).toArray();
+  client.close()
+  return response;
+}
+
 async function updateCollection(data) {
   await client.connect();
   console.log('Connected successfully to server');
@@ -44,6 +54,11 @@ async function getCollectionAccount(data) {
   return response
 }
 
+async function getCollectionAccounts() {
+  const response = await getCollections()
+  return response
+}
+
 async function putCollection(data) {
     console.log('putCollection', data)
     await client.connect();
@@ -61,4 +76,4 @@ async function putCollectionUser(data) {
     .catch(console.error)
     .finally(() => client.close());
 }
-module.exports = { getCollectionAccount, putCollectionUser, updateCollectionAccount };
+module.exports = { getCollectionAccount, putCollectionUser, updateCollectionAccount, getCollectionAccounts };

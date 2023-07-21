@@ -14,7 +14,6 @@ const Deposit = () => {
     let response = await getAccount();
     setAccount(response)
   }
-  console.log('account', account)
   useEffect(() => {
     Account()
   },[])

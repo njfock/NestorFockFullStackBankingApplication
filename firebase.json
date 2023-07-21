@@ -12,6 +12,7 @@
     }
   ],
   "hosting": {
+    "site": "nestorfockfullstackbankapp",
     "public": "build",
     "ignore": [
       "firebase.json",

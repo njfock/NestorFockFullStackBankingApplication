@@ -14,6 +14,7 @@ import { auth } from '../../helper/firebase';
 import { setLogout } from "../../helper/auth";
 import logo from '../../assets/logo/logo-no-background.png';
 import Tab from './Tab';
+import Particles from '../Particles';
 const Topnav = ({ path }) => {
    const [tooltipOpen, setTooltipOpen] = useState(false);
    const [user, setUser] = useState({loading:true });
@@ -42,12 +43,12 @@ const Topnav = ({ path }) => {
                }}
             />
          </NavbarBrand>
-         {user.loading? <></>
+         {user.loading? <Particles/>
             :
             <>
                <Nav pills >
                   <Tab path={path} title={'Home'} link={"/"} description={'Inicio'} index={0}/>
-                  {!user?
+                  {!user.uid?
                      <>
                         <Tab path={path} title={'Login'} link={"/login"} description={'Iniciar sesión'} index={1}/>
                         <Tab path={path} title={'Create Account'} link={"/create"} description={'Crear cuenta'} index={2}/>
@@ -62,7 +63,7 @@ const Topnav = ({ path }) => {
                </Nav>
                <Nav>
                   <NavbarText style={{color: '#FF5733'}}><b>{auth? auth.currentUser? auth.currentUser.displayName? auth.currentUser.displayName :'':'':''}</b> <b style={{color: '#000000'}}>{auth? auth.currentUser? auth.currentUser.email? ' | '+ auth.currentUser.email :'':'':''}</b></NavbarText>
-                  {user?
+                  {user.uid?
                   <>
                   <NavItem id={`tooltip_logout`}>
                         <NavLink href="/login" onClick={()=>{setLogout()}} style={{color: '#000000'}}>
