@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import TopNav from "../containers/navs/Topnav";
 import { Card, CardBody, CardTitle, CardSubtitle, Row, Col, Input, Button, CardFooter } from 'reactstrap';
 import { NotificationManager } from 'react-notifications';
-import { getCurrentUser, setCurrentUser, setLog } from "../helper/auth";
+import { setCurrentUser, setLog } from "../helper/auth";
+import { getAccount, updateAccount } from "../helper/account";
 import logo from '../assets/logo/logo-no-background.png';
 const Withdraw = () => {
   const [amount, setAmount] = useState(0);
   const [amount_confirm, setAmountConfirm] = React.useState('');
+  const [account, setAccount] = useState({balance: 0});
   let location = useLocation();
-  let user = getCurrentUser();
+  const Account = async () => {
+    let response = await getAccount();
+    setAccount(response)
+  }
+  console.log('account', account)
+  useEffect(() => {
+    Account()
+  },[])
+
 
   function validate(field, setStatus) {
     if(!field) {
@@ -34,10 +44,9 @@ const Withdraw = () => {
     let flag = 0;
     if (!validate(amount, setAmountConfirm)) flag = flag - 1;
     if (flag === 0){
-      if(Number(amount)<=Number(user.balance)){
-        setLog({email: user.email, action:'Withdraw '+ Number(amount), date: Date.now()})
-        setLog({email: user.email, action:'New Balance '+ Number(user.balance), date: Date.now()})
-        setCurrentUser({...user, balance: Number(user.balance) - Number(amount)})
+      if(Number(amount)<=Number(account.balance)){
+        let response = await updateAccount({...account, balance: Number(account.balance) - Number(amount)})
+        setAccount(response)
         setAmount(0);
         NotificationManager.success('Alert', 'Success withdraw');
           
@@ -81,7 +90,7 @@ const Withdraw = () => {
               >
                 <Row className="mb-4 mt-2">
                   <Col className="text-start">Balance</Col>
-                  <Col className="text-end">{new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(user.balance)}</Col>
+                  <Col className="text-end">{new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(account.balance)}</Col>
                 </Row>
                 <Row className="mb-4">
                   <Col className="text-start mt-1">Withdraw amount</Col>

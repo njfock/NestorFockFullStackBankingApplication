@@ -42,7 +42,7 @@ const Deposit = () => {
     let flag = 0;
     if (!validate(amount, setAmountConfirm)) flag = flag + 1;
     if (flag === 0){
-      let response = await await updateAccount({...account, balance: Number(account.balance) + Number(amount)})
+      let response = await updateAccount({...account, balance: Number(account.balance) + Number(amount)})
       setAccount(response)
       setAmount(0);
       NotificationManager.success('Thank you '+account.name, 'Deposit received');
