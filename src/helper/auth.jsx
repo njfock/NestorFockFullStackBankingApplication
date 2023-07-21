@@ -1,5 +1,7 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { auth } from './firebase';
+import { NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 import { servicePath } from '../constants/defaultValues';
 
 /* eslint-disable array-callback-return */
@@ -17,6 +19,8 @@ export const setCurrentUser = async (user) => {
           const errorMessage = error.message;
           console.log('errorCode', errorCode);
           console.log('errorMessage', errorMessage);
+
+          NotificationManager.error(errorMessage, errorCode);
         });
     }
   } catch (error) {
@@ -25,12 +29,14 @@ export const setCurrentUser = async (user) => {
 };
 
 export const setNewUser = (user) => {
-  console.log('setNewUser', user)
   try {
     if (user) {
       createUserWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential) => {
-        registerUser(userCredential.user);
+        registerUser({email: user.email, name: user.name, balance: 0, uid: userCredential.user.uid});
+        updateProfile(auth.currentUser, {
+          displayName: user.name
+        });
       })
       .catch((error) => {
         console.log('errorCode =', error.code);

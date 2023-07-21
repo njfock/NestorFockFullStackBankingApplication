@@ -1,10 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { onAuthStateChanged } from "firebase/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Card, CardBody, CardTitle, Row, Col, Input, Button } from 'reactstrap';
 import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import TopNav from "../containers/navs/Topnav";
+import { auth } from "../helper/firebase";
 import logo from '../assets/logo/logo-black.png';
 
 import { setNewUser, setLog } from "../helper/auth";
@@ -20,7 +22,19 @@ const CreateAccount = () => {
   const [alert_email, setAlertEmail] = useState('');
   const [alert_password, setAlertPassword] = useState('');
   const [alert_confirm, setAlertConfirm] = useState('');
-
+  const Auth = () => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log('uid = ',user.uid);
+        navigate('/')
+      } else {
+        console.log('No hay usuario loggeado')
+      }
+    });
+  }
+  useEffect(() => {
+    Auth()
+  },[])
   function handleSubmit(event) {
     event.preventDefault();
     }

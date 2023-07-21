@@ -13,36 +13,52 @@ const client = new MongoClient(uri, {
 
 const dbName = 'badbank';
 
-async function getCollection() {
-    // Use connect method to connect to the server
-    await client.connect();
-    console.log('Connected successfully to server');
-    const db = client.db(dbName);
-    const collection = db.collection('users');
-    return collection;
-  }
-  
-async function getCollectionUser() {
-  getCollection()
-    .then(console.log)
-    .catch(console.error)
-    .finally(() => client.close());
+async function getCollection(data) {
+  await client.connect();
+  console.log('Connected successfully to server');
+  const db = client.db(dbName);
+  const collection = db.collection('accounts');
+  const response = await collection.find(data).toArray();
+  client.close()
+  return response;
 }
+
+async function updateCollection(data) {
+  await client.connect();
+  console.log('Connected successfully to server');
+  const db = client.db(dbName);
+  const collection = db.collection('accounts');
+  await collection.updateOne({ _id: data._id }, { $set: {...data} });
+  const response = await collection.find(data).toArray();
+  client.close()
+  return response;
+}
+
+async function updateCollectionAccount(data) {
+  const response = await updateCollection(data)
+  return response
+}
+
+async function getCollectionAccount(data) {
+  const response = await getCollection(data)
+  return response
+}
+
 async function putCollection(data) {
-    // Use connect method to connect to the server
+    console.log('putCollection', data)
     await client.connect();
     console.log('Connected successfully to server');
     const db = client.db(dbName);
-    const collection = db.collection('users');
-    const insertResult = await collection.insertMany([data]);
-    console.log('Inserted documents =>', insertResult);
+    const collection = db.collection('accounts');
+    await collection.insertMany([data]);
     return collection;
   }
   
 async function putCollectionUser(data) {
+  console.log('data', data)
     putCollection(data)
     .then(console.log)
     .catch(console.error)
     .finally(() => client.close());
 }
-module.exports = { getCollectionUser, putCollectionUser };
+module.exports = { getCollectionAccount, putCollectionUser, updateCollectionAccount };

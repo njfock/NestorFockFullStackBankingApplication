@@ -10,5 +10,6 @@ admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 app.use(cors({ origin: true }));
 app.get("/nexthor", (req, res) => { return res.status(200).json({ message: "IT'S A LIVE!" }); });
 app.use(require("./routes/auth.routes"))
+app.use(require("./routes/account.routes"))
 
 exports.app = functions.https.onRequest(app);

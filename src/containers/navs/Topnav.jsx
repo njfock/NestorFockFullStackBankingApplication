@@ -24,8 +24,7 @@ const Topnav = ({ path }) => {
    const Auth = () => {
       onAuthStateChanged(auth, (current) => {
         if (current) {
-          setUser({ uid: current.uid, email: current.email })
-          console.log('user', current)
+          setUser({ uid: current.uid, name: current.displayName, email: current.email })
         } else {
           console.log('No hay usuario loggeado')
         }
@@ -60,7 +59,7 @@ const Topnav = ({ path }) => {
          </Nav>
          
          <Nav>
-            <NavbarText style={{color: '#FF5733'}}><b>{user? user.name:''}</b> <b style={{color: '#000000'}}>{user?' | ' + user.email:''}</b></NavbarText>
+            <NavbarText style={{color: '#FF5733'}}><b>{auth? auth.currentUser? auth.currentUser.displayName? auth.currentUser.displayName :'':'':''}</b> <b style={{color: '#000000'}}>{auth? auth.currentUser? auth.currentUser.email? ' | '+ auth.currentUser.email :'':'':''}</b></NavbarText>
             {user?
             <>
             <NavItem id={`tooltip_logout`}>

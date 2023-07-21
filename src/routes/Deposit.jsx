@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import TopNav from "../containers/navs/Topnav";
 import { Card, CardBody, CardTitle, CardSubtitle, Row, Col, Input, Button, CardFooter } from 'reactstrap';
 import { NotificationManager } from 'react-notifications';
-import { getCurrentUser, setCurrentUser, setLog } from "../helper/auth";
+import { getAccount, updateAccount } from "../helper/account";
 import logo from '../assets/logo/logo-no-background.png';
 const Deposit = () => {
   const [amount, setAmount] = useState(0);
+  const [account, setAccount] = useState({balance: 0});
   const [amount_confirm, setAmountConfirm] = React.useState('');
   let location = useLocation();
-  let user = getCurrentUser();
+  const Account = async () => {
+    let response = await getAccount();
+    setAccount(response)
+  }
+  console.log('account', account)
+  useEffect(() => {
+    Account()
+  },[])
 
   function validate(field, setStatus) {
     if(!field) {
@@ -34,11 +42,10 @@ const Deposit = () => {
     let flag = 0;
     if (!validate(amount, setAmountConfirm)) flag = flag + 1;
     if (flag === 0){
-      setCurrentUser({...user, balance: Number(user.balance) + Number(amount)})
-      setLog({email: user.email, action:'Deposit '+ Number(amount), date: Date.now()})
-      setLog({email: user.email, action:'New Balance '+ Number(user.balance), date: Date.now()})
+      let response = await await updateAccount({...account, balance: Number(account.balance) + Number(amount)})
+      setAccount(response)
       setAmount(0);
-      NotificationManager.success('Thank you '+user.name, 'Deposit received');
+      NotificationManager.success('Thank you '+account.name, 'Deposit received');
       setTimeout(() => {
         setAmount(0);
       }, "1000");
@@ -75,7 +82,7 @@ const Deposit = () => {
               >
                 <Row className="mb-4 mt-2">
                   <Col className="text-start">Balance</Col>
-                  <Col className="text-end">{new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(user.balance)}</Col>
+                  <Col className="text-end">{account? new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(account.balance):''}</Col>
                 </Row>
                 <Row className="mb-4">
                   <Col className="text-start mt-1">Deposit amount</Col>
