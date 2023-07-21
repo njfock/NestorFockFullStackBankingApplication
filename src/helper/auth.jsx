@@ -33,7 +33,7 @@ export const setNewUser = (user) => {
     if (user) {
       createUserWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential) => {
-        registerUser({email: user.email, name: user.name, balance: 0, uid: userCredential.user.uid});
+        registerUser({email: user.email, password: user.password, name: user.name, balance: 0, uid: userCredential.user.uid});
         updateProfile(auth.currentUser, {
           displayName: user.name
         });
@@ -45,21 +45,6 @@ export const setNewUser = (user) => {
     } 
   } catch (error) {
     console.log('>>>>: src/helpers/Utils.js : setNewUser -> error', error);
-  }
-};
-export const setLog = (log) => {
-  console.log('setLog', log)
-  try {
-    if (log) {
-      let logs =
-      localStorage.getItem('logs') != null
-        ? JSON.parse(localStorage.getItem('logs'))
-        : [];
-      logs.push(log)
-      localStorage.setItem('logs', JSON.stringify(logs));
-    } 
-  } catch (error) {
-    console.log('>>>>: src/helpers/Utils.js : setLog -> error', error);
   }
 };
 export const getCurrentUser = () => {

@@ -10,7 +10,7 @@ import TopNav from "../containers/navs/Topnav";
 import { auth } from "../helper/firebase";
 import logo from '../assets/logo/logo-black.png';
 
-import { setNewUser, setLog } from "../helper/auth";
+import { setNewUser } from "../helper/auth";
 const CreateAccount = () => {
   let navigate = useNavigate();  
   let location = useLocation();
@@ -84,7 +84,6 @@ const CreateAccount = () => {
       
       if (flag === 0){
         setShow(false)
-        setLog({email: email, action:'Create user', date: Date.now()})
         setNewUser({email: email, name: name, password: password, balance: 0})
         NotificationManager.success('Successfully Created Account', 'Logging in...');
       }
