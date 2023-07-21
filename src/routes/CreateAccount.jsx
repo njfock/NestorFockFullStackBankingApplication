@@ -104,15 +104,10 @@ const CreateAccount = () => {
 
       <div className="container mt-4 " >
           <Row>
-            <Col className="bg-light border">
-            </Col>
-            <Col className="bg-light border">
-            <Card
+            <Col className="bg-light border" xs="12" md="6">
+              <Card
                 color="dark"
                 inverse
-                style={{
-                  width: '25rem'
-                }}
               >
                 <img
                   alt="Sample"
@@ -120,13 +115,10 @@ const CreateAccount = () => {
                 />
               </Card>
             </Col>
-            <Col className="bg-light border">
+            <Col className="bg-light border" xs="12" md="6">
               <Card
                 color="dark"
                 inverse
-                style={{
-                  width: '25rem'
-                }}
               >
                 <CardBody>
                   <CardTitle tag="h2" style={{color: '#FF5733'}} className="mt-3">
@@ -153,8 +145,6 @@ const CreateAccount = () => {
                   </>}
                 </CardBody>
               </Card>
-            </Col>
-            <Col className="bg-light border">
             </Col>
           </Row>
       </div>

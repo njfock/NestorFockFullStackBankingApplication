@@ -56,13 +56,13 @@ const Deposit = () => {
     <div className="fixed-background" >
     </div>
     <TopNav path={location.pathname}/>
-      <div className="container mt-4 " >
+      <div className="container mt-4" >
         <center className="mt-4">
           <Card
             color="secondary"
             inverse
             style={{
-              width: '25rem'
+              width: '22rem'
             }}
           >
             <img

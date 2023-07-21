@@ -42,17 +42,11 @@ const Login = () => {
 
       <div className="container mt-4 " >
         <center className="mt-4">
-
           <Row>
-            <Col className="bg-light border">
-            </Col>
-            <Col className="bg-light border">
+            <Col className="bg-light border" xs="12" md="6">
             <Card
                 color="dark"
                 inverse
-                style={{
-                  width: '18rem'
-                }}
               >
                 <img
                   alt="Sample"
@@ -60,13 +54,10 @@ const Login = () => {
                 />
               </Card>
             </Col>
-            <Col className="bg-light border">
+            <Col className="bg-light border" xs="12" md="6">
               <Card
                 color="dark"
                 inverse
-                style={{
-                  width: '18rem'
-                }}
               >
                 <CardBody>
                   <CardTitle tag="h2" style={{color: '#FF5733'}} className="mt-3">
@@ -80,8 +71,6 @@ const Login = () => {
                   </form>
                 </CardBody>
               </Card>
-            </Col>
-            <Col className="bg-light border">
             </Col>
           </Row>
         </center>

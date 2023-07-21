@@ -70,7 +70,7 @@ const Withdraw = () => {
             color="secondary"
             inverse
             style={{
-              width: '25rem'
+              width: '22rem'
             }}
           >
             <img
