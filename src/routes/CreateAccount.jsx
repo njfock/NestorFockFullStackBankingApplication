@@ -17,6 +17,8 @@ const CreateAccount = () => {
   const [show, setShow] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [account, setAccount] = useState('Checking Account');
+  const [rol, setRol] = useState('Customer');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [alert_name, setAlertName] = useState('');
@@ -84,7 +86,7 @@ const CreateAccount = () => {
       
       if (flag === 0){
         setShow(false)
-        setNewUser({email: email, name: name, password: password, balance: 0})
+        setNewUser({email: email, name: name, password: password, balance: 0, type: account, rol: rol})
         NotificationManager.success('Successfully Created Account', 'Logging in...');
       }
     }
@@ -110,7 +112,7 @@ const CreateAccount = () => {
                 inverse
               >
                 <img
-                  alt="Sample"
+                  alt="Logo"
                   src={logo}
                 />
               </Card>
@@ -135,6 +137,16 @@ const CreateAccount = () => {
                     <p style={{color: '#FF5733'}}>{alert_password}</p>
                     <Input name="confirm" type="password" placeholder='Confirm password' value={confirm} className="form-control" onChange={ e => setConfirm(e.currentTarget.value)}/>
                     <p style={{color: '#FF5733'}}>{alert_confirm}</p>
+                    <Input type="select" name="selectMulti" id="exampleSelectMulti" onChange={(event) => {setAccount(event.target.value)}}>
+                      <option>Checking Account</option>
+                      <option>Savings Account</option>
+                    </Input>
+                    <p style={{color: '#FF5733'}}></p>
+                    <Input type="select" name="selectMulti" id="exampleSelectMulti" onChange={(event) => {setRol(event.target.value)}} >
+                      <option>Customer</option>
+                      <option>Bank employee</option>
+                    </Input>
+                    <p style={{color: '#FF5733'}}></p>
                     {name!==''|| email!==''||password!==''|| email!==''?
                     <Button type="submit" onClick={handleCreate}>Create Account</Button>:<></>}
                   </form>

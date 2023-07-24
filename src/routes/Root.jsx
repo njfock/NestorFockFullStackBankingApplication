@@ -22,7 +22,7 @@ const Root = () => {
             }}
           >
             <img
-              alt="Sample"
+              alt="Logo"
               src={logo}
             />
             <CardBody>

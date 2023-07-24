@@ -57,6 +57,7 @@ const Topnav = ({ path }) => {
                      <>
                         <Tab path={path} title={'Deposit'} link={"/deposit"} description={'Deposito'} index={3}/>
                         <Tab path={path} title={'Withdraw'} link={"/withdraw"} description={'Retiro'} index={4}/>
+                        <Tab path={path} title={'Transfer'} link={"/transfer"} description={'Transferencia'} index={6}/>
                         <Tab path={path} title={'All Data'} link={"/data"} description={'Datos'} index={5}/>
                      </>
                   }

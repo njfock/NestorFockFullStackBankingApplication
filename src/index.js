@@ -12,6 +12,7 @@ import Login from "./routes/Login";
 import CreateAccount from "./routes/CreateAccount";
 import Deposit from "./routes/Deposit";
 import Withdraw from "./routes/Withdraw";
+import Transfer from "./routes/Transfer";
 import AllData from "./routes/AllData";
 import ErrorPage from "./error-page";
 
@@ -41,6 +42,11 @@ const router = createBrowserRouter([
   {
     path: "/withdraw",
     element: <Withdraw />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/transfer",
+    element: <Transfer />,
     errorElement: <ErrorPage />,
   },
   {

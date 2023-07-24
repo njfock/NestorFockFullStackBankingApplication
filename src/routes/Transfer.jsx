@@ -1,15 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable array-callback-return */
 import React, { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import { Card, CardBody, CardTitle, CardSubtitle, Row, Col, Input, Button, CardFooter } from 'reactstrap';
 import { NotificationManager } from 'react-notifications';
-import { getAccount, updateAccount } from "../helper/account";
+import { getAccount, updateAccount, getAccounts } from "../helper/account";
 import TopNav from "../containers/navs/Topnav";
 import Particles from '../containers/Particles';
 import logo from '../assets/logo/logo-no-background.png';
 
 const Withdraw = () => {
   const [amount, setAmount] = useState(0);
+  const [number, setNumber] = useState('');
+  const [transfer, setTransfer] = useState();
+  const [number_confirm, setNumberConfirm] = useState('');
   const [amount_confirm, setAmountConfirm] = React.useState('');
   const [account, setAccount] = useState({balance: 0, loading: true});
   let location = useLocation();
@@ -19,6 +23,27 @@ const Withdraw = () => {
     let response = await getAccount();
     setAccount({...response, loading:false})
   }
+  const Search = async (data) => {
+    let accounts = await getAccounts();
+    setNumberConfirm('')
+    setTransfer(); 
+    accounts.map(
+      (item)=>{ 
+        if(item.number.toString().replace(' ','') === data.replace(' ','')) { 
+          setTransfer(item); 
+          setNumberConfirm(item.name+' | '+item.email)
+        }
+      }
+    )
+    if(number_confirm === ''){
+      if(number.length>10)
+        setNumberConfirm('Account does not exist')
+    }
+  }
+
+  useEffect(() => {
+    Search(number)
+  },[number]) 
 
   useEffect(() => {
     Account()
@@ -50,8 +75,10 @@ const Withdraw = () => {
         setAccount({...account, loading:true})
         let response = await updateAccount({...account, balance: Number(account.balance) - Number(amount)})
         setAccount({...response, loading:false})
+        await updateAccount({...transfer, balance: Number(transfer.balance) + Number(amount)})
         setAmount(0);
-        NotificationManager.success('Alert', 'Success withdraw');
+        setNumber('')
+        NotificationManager.success('Alert', 'Success transfer');
         setTimeout(() => { setAmount(0) }, "1000");
       }
       else {
@@ -66,11 +93,11 @@ const Withdraw = () => {
       <TopNav path={location.pathname}/>
       <div className="container mt-4">
         <center className="mt-4">
-          <Card color="secondary" inverse style={{ width: '22rem' }}>
+          <Card color="secondary" inverse>
             <img alt="Logo" src={logo} width='50%' className="m-4"/>
             <CardBody>
               <CardTitle tag="h2" style={{color: '#FF5733'}}>
-                Withdraw
+                Transfer
               </CardTitle>
               <hr/>
               { account.loading? 
@@ -90,19 +117,29 @@ const Withdraw = () => {
                     <Col className="text-end">{account? new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(account.balance): ''}</Col>
                   </Row>
                   <Row className="mb-4">
-                    <Col className="text-start mt-1">Withdraw amount</Col>
-                    <Col className="text-end"><Input name="amount" type="text" placeholder='amount' value={amount} className="form-control text-end" onChange={ e => setAmount(e.currentTarget.value)} min="0"/></Col>
+                    <Col className="text-start mt-1">Account number to transfer</Col>
+                    <Col className="text-end">
+                      <Input name="to" type="text" value={number} className="form-control text-end" onChange={ e => setNumber(e.currentTarget.value)} min="0"/>
+                      <p style={{color: '#FF5733'}}>{number_confirm}</p>
+                    </Col>
                   </Row>
-                  <p style={{color: '#FF5733'}}>{amount_confirm}</p>
+                  <Row className="mb-4">
+                    <Col className="text-start mt-1">Transfer amount</Col>
+                    <Col className="text-end">
+                      <Input name="amount" type="text" placeholder='amount' value={amount} className="form-control text-end" onChange={ e => setAmount(e.currentTarget.value)} min="0"/>
+                      <p style={{color: '#FF5733'}}>{amount_confirm}</p>
+                    </Col>
+                  </Row>
+                  
                 </CardSubtitle>
               }
             </CardBody>
             <CardFooter style={{background: '#FF5733'}}>
               { account.loading? 
                 <></>
-              : amount!==0?
-                <Button type="submit" onClick={handleSubmit}>Withdraw</Button>
-              : <></>
+              : amount!==0? transfer?
+                <Button type="submit" onClick={handleSubmit}>Transfer</Button>
+              : <></>: <></>
               }
             </CardFooter>
           </Card>

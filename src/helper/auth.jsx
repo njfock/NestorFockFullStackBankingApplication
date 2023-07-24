@@ -33,7 +33,7 @@ export const setNewUser = (user) => {
     if (user) {
       createUserWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential) => {
-        registerUser({email: user.email, password: user.password, name: user.name, balance: 0, uid: userCredential.user.uid});
+        registerUser({email: user.email, password: user.password, name: user.name, balance: 0, uid: userCredential.user.uid, type: user.type, rol: user.rol});
         updateProfile(auth.currentUser, {
           displayName: user.name
         });

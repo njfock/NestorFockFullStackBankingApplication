@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.e1d542d0.css",
-    "main.js": "/static/js/main.ae53c439.js",
+    "main.js": "/static/js/main.5da64a6e.js",
     "static/js/787.8c0e7b7d.chunk.js": "/static/js/787.8c0e7b7d.chunk.js",
     "static/media/Arvo Regular.ttf": "/static/media/Arvo Regular.e3d3d53c44db025c4592.ttf",
     "static/media/logo-color.png": "/static/media/logo-color.09980376bf3e03af5436.png",
@@ -14,11 +14,11 @@
     "static/media/notification.ttf?s3g3t9": "/static/media/notification.c5d9251ea82e42f75381.ttf",
     "index.html": "/index.html",
     "main.e1d542d0.css.map": "/static/css/main.e1d542d0.css.map",
-    "main.ae53c439.js.map": "/static/js/main.ae53c439.js.map",
+    "main.5da64a6e.js.map": "/static/js/main.5da64a6e.js.map",
     "787.8c0e7b7d.chunk.js.map": "/static/js/787.8c0e7b7d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e1d542d0.css",
-    "static/js/main.ae53c439.js"
+    "static/js/main.5da64a6e.js"
   ]
 }

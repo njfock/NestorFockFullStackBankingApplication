@@ -49,7 +49,7 @@ const Login = () => {
                 inverse
               >
                 <img
-                  alt="Sample"
+                  alt="Logo"
                   src={logo}
                 />
               </Card>
@@ -58,9 +58,6 @@ const Login = () => {
               <Card
                 color="dark"
                 inverse
-                style={{
-                  width: '18rem'
-                }}
               >
                 <CardBody>
                   <CardTitle tag="h2" style={{color: '#FF5733'}} className="mt-3">

@@ -8,7 +8,7 @@ const serviceAccount = require("./config/permissions.json");
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 
 app.use(cors({ origin: true }));
-app.get("/nexthor", (req, res) => { return res.status(200).json({ message: "IT'S A LIVE!" }); });
+app.get("/nestor", (req, res) => { return res.status(200).json({ message: "IT'S A LIVE!" }); });
 app.use(require("./routes/auth.routes"))
 app.use(require("./routes/account.routes"))
 
